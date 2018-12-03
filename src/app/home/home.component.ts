@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
 
     this.api.getWeather().then(data => {
       const {weather: [{main, icon}], sys: {sunrise, sunset}} = data;
-      const now = Date.now();
+      const now = Math.round(Date.now() / 1000);
       this.time = now >= sunrise && now < sunset ? 'day' : 'night';
       background.href.baseVal = `#icon${icon}`;
     }).catch(error => console.error('error', error));
