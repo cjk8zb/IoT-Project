@@ -1,14 +1,392 @@
-svg {
+.main {
   position: absolute;
-  margin: 0;
   padding: 0;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
+  margin: 0;
   height: 100%;
   width: 100%;
-  background-color: black;
+}
+
+.night {
+  background-color: midnightblue;
   color: white;
   fill: white;
+}
+
+.day {
+  background-color: deepskyblue;
+  color: black;
+  fill: black;
+}
+
+/*
+** CLOUDS
+*/
+@keyframes am-weather-cloud-1 {
+  0% {
+    transform: translate(-5px, 0px);
+  }
+
+  50% {
+    transform: translate(10px, 0px);
+  }
+
+  100% {
+    transform: translate(-5px, 0px);
+  }
+}
+
+.am-weather-cloud-1 {
+  animation-name: am-weather-cloud-1;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes am-weather-cloud-2 {
+  0% {
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(2px, 0px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.am-weather-cloud-2 {
+  animation-name: am-weather-cloud-2;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/*
+** STROKE
+*/
+@keyframes am-weather-strike {
+  0% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  2% {
+    transform: translate(0.3px, 0.0px);
+  }
+
+  4% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  6% {
+    transform: translate(0.5px, 0.4px);
+  }
+
+  8% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  10% {
+    transform: translate(0.3px, 0.0px);
+  }
+
+  12% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  14% {
+    transform: translate(0.3px, 0.0px);
+  }
+
+  16% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  18% {
+    transform: translate(0.3px, 0.0px);
+  }
+
+  20% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  22% {
+    transform: translate(1px, 0.0px);
+  }
+
+  24% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  26% {
+    transform: translate(-1px, 0.0px);
+  }
+
+  28% {
+    transform: translate(0.0px, 0.0px);
+  }
+
+  40% {
+    fill: yellow;
+    transform: translate(0.0px, 0.0px);
+  }
+
+  65% {
+    fill: white;
+    transform: translate(-1px, 5.0px);
+  }
+
+  61% {
+    fill: yellow;
+  }
+
+  100% {
+    transform: translate(0.0px, 0.0px);
+  }
+}
+
+.am-weather-strike {
+  animation-name: am-weather-strike;
+  animation-duration: 1.11s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  fill: yellow;
+  stroke: white;
+  stroke-width: 1;
+}
+
+/*
+** SUN
+*/
+@keyframes am-weather-sun {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.am-weather-sun {
+  animation-name: am-weather-sun;
+  animation-duration: 9s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes am-weather-sun-shiny {
+  0% {
+    stroke-dasharray: 3px 10px;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 0.1px 10px;
+    stroke-dashoffset: -1px;
+  }
+
+  100% {
+    stroke-dasharray: 3px 10px;
+    stroke-dashoffset: 0;
+  }
+}
+
+.am-weather-sun-shiny line {
+  animation-name: am-weather-sun-shiny;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+
+/*
+** MOON
+*/
+@keyframes am-weather-moon {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(15deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.am-weather-moon {
+  animation-name: am-weather-moon;
+  animation-duration: 6s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform-origin: 12.5px 15.15px 0; /* TODO FF CENTER ISSUE */
+}
+
+@keyframes am-weather-moon-star-1 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.am-weather-moon-star-1 {
+  animation-name: am-weather-moon-star-1;
+  animation-delay: 3s;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes am-weather-moon-star-2 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.am-weather-moon-star-2 {
+  animation-name: am-weather-moon-star-2;
+  animation-delay: 5s;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+/*
+** RAIN
+*/
+@keyframes am-weather-rain {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+.am-weather-rain-1 {
+  animation-name: am-weather-rain;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.am-weather-rain-2 {
+  animation-name: am-weather-rain;
+  animation-delay: 0.25s;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+
+/*
+** SNOW
+*/
+@keyframes am-weather-snow {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  33.33% {
+    transform: translateX(-1.2px) translateY(2px);
+  }
+
+  66.66% {
+    transform: translateX(1.4px) translateY(4px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-1.6px) translateY(6px);
+    opacity: 0;
+  }
+}
+
+@keyframes am-weather-snow-reverse {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  33.33% {
+    transform: translateX(1.2px) translateY(2px);
+  }
+
+  66.66% {
+    transform: translateX(-1.4px) translateY(4px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(1.6px) translateY(6px);
+    opacity: 0;
+  }
+}
+
+.am-weather-snow-1 {
+  animation-name: am-weather-snow;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.am-weather-snow-2 {
+  animation-name: am-weather-snow;
+  animation-delay: 1.2s;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.am-weather-snow-3 {
+  animation-name: am-weather-snow-reverse;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/*
+** MIST
+*/
+
+@keyframes am-weather-mist {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.am-weather-mist {
+  animation-name: am-weather-mist;
+  animation-delay: 1s;
+  animation-duration: 5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/*
+** EASING
+*/
+.am-weather-easing-ease-in-out {
+  animation-timing-function: ease-in-out;
 }
