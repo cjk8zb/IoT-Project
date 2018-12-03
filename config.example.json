@@ -1,0 +1,11 @@
+{
+  "openWeatherMap": {
+    "cityId": "4393217",
+    "apiKey": "YOUR_API_KEY_HERE"
+  },
+  "path": "dist/Project",
+  "app_desc": "my app desc",
+  "port": 8080,
+  "json_indentation": 4,
+  "database": "my-app-db-dev"
+}
