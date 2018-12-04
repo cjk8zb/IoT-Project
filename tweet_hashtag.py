@@ -192,9 +192,16 @@ def main():
         all_dict.append(final_dict.copy())
         i += 1
 
-    for my_dict in all_dict:
-        with open("final_output.json", 'a') as fp:
+    json_begin = '['
+    json_end = ']'
+    with open("final_output.json", 'a') as fp:
+        fp.write(json_begin)
+        for my_dict in all_dict:
             json.dump(my_dict, fp)
+            if my_dict != all_dict[-1]:
+                fp.write(',')
+
+        fp.write(json_end)
 
 
 
