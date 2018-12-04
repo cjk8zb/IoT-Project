@@ -189,7 +189,7 @@ def main():
         final_dict['value'] = merge_dict_list[i][j][k]
         final_dict['sentiment'] = merge_dict_list[i][j][j][k]
         final_dict['perc_senti'] = merge_dict_list[i][j][j][j]
-        all_dict.append(final_dict)
+        all_dict.append(final_dict.copy())
         i += 1
 
     for my_dict in all_dict:
