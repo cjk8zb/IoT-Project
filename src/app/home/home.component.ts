@@ -9,59 +9,76 @@ import {APIService} from '../api.service';
 })
 export class HomeComponent implements OnInit {
   time = 'day';
-  // icon: SVGUseElement;
-  // textTemplate: SVGTextElement;
-  // container: SVGGElement;
-  // wordCloud: any;
-
+  background: SVGUseElement;
+  wordCloud: any;
   constructor(private api: APIService) { }
 
   ngOnInit() {
     const svg = <any>document.getElementById('word-cloud') as SVGSVGElement;
     const container = <any>svg.getElementById('container') as SVGGElement;
     const textTemplate = <any>svg.getElementById('text-template') as SVGTextElement;
-    const background = <any>svg.getElementById('icon') as SVGUseElement;
+    this.background = <any>svg.getElementById('icon') as SVGUseElement;
     textTemplate.remove();
     container.setAttribute('transform', 'translate(400, 240)');
+    this.wordCloud = cloud().size([800, 480])
+      .padding(5)
+      .font('Impact')
+      .rotate(0)
+      .spiral('rectangular')
+      .on('end', w => {
+        container.innerHTML = '';
+        w.forEach(d => {
+          const text = <any>textTemplate.cloneNode() as SVGTextElement;
+          text.innerHTML = d.text;
+          text.style.fontSize = d.size + 'px';
+          text.style.fontFamily = d.font;
+          text.style.fill = mood(d.sentiment, this.time === 'night');
+          text.style.stroke = this.time === 'night' ? 'black' : 'white';
+          text.style.strokeWidth = '2px';
+          text.style.strokeOpacity = '0.5';
+          text.setAttribute('transform', `translate(${[d.x, d.y]}) rotate(${d.rotate})`);
+          text.setAttribute('text-anchor', 'middle');
+          container.appendChild(text);
+        });
+      });
+
+    this.updateUI();
+    setInterval(() => {
+      this.updateUI();
+    }, 60000);
+  }
+
+  updateUI() {
+    const minSize = 20;
+    const maxSize = 100;
 
     this.api.getTopics().then(words => {
-      const wordCloud = cloud().size([800, 480])
-        .words(words)
-        .padding(5)
-        .font('Impact')
-        .fontSize(d => d.value)
-        .rotate(0)
-        .spiral('rectangular')
-        .on('end', w => {
-          w.forEach(d => {
-            const text = <any>textTemplate.cloneNode() as SVGTextElement;
-            text.innerHTML = d.text;
-            text.style.fontSize = d.size + 'px';
-            text.style.fontFamily = d.font;
-            text.style.fill = mood(d.sentiment, this.time === 'night');
-            text.style.stroke = this.time === 'night' ? 'black' : 'white';
-            text.style.strokeWidth = '2px';
-            text.style.strokeOpacity = '0.5';
-            text.setAttribute('transform', `translate(${[d.x, d.y]}) rotate(${d.rotate})`);
-            text.setAttribute('text-anchor', 'middle');
-            container.appendChild(text);
-          });
-        });
-      wordCloud.start();
+      const [first, ...rest] = words;
+      let minCount = first.value;
+      let maxCount = first.value;
+      rest.forEach(w => {
+        minCount = w.value < minCount ? w.value : minCount;
+        maxCount = w.value > maxCount ? w.value : maxCount;
+      });
+      const scale = ({value}) => (maxSize - minSize) * (value - minCount) / (maxCount - minCount) + minSize;
+
+      console.log('minCount', minCount, 'maxCount', maxCount);
+      this.wordCloud.words(words).fontSize(scale).start();
     });
 
     this.api.getWeather().then(data => {
       const {weather: [{main, icon}], sys: {sunrise, sunset}} = data;
       const now = Math.round(Date.now() / 1000);
       this.time = now >= sunrise && now < sunset ? 'day' : 'night';
-      background.href.baseVal = `#icon${icon}`;
+      this.background.href.baseVal = `#icon${icon}`;
     }).catch(error => console.error('error', error));
+
   }
 }
 
 function mood(sentiment: number, night: boolean): string {
   if (!sentiment) {
-    return 'white';
+    return night ? 'white' : 'black';
   }
 
   const positive = [0, 0, 255];

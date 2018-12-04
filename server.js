@@ -2,6 +2,7 @@ const config = require('./config.json');
 const express = require('express');
 const https = require('https');
 const path = require('path');
+const spawn = require("child_process").spawn;
 
 const app = express();
 app.use((req, res, next) => {
@@ -16,7 +17,6 @@ app.use(express.static(www));
 const apiRouter = express.Router();
 // List available api
 apiRouter.get('/', (req, res) => {
-  console.log('api', apiRouter.stack);
   res.json({
     links: apiRouter.stack.filter(layer => layer.route).map(layer => layer.route.path)
       .filter(path => path.startsWith('/') && path.length > 1)
@@ -25,24 +25,34 @@ apiRouter.get('/', (req, res) => {
 });
 
 apiRouter.get('/topics', (req, res) => {
-  const topics = [
-    '#UMKC',
-    'Chiefs',
-    'Kansas City',
-    'CS5590',
-    '#Sports!!',
-    'Finals Week',
-    'Basketball',
-    'Snow Day',
-    '#ForkKnife',
-    '#Fortnite'
-  ];
-  const words = topics.map(topic => ({
-    text: topic,
-    value: 10 + Math.random() * 90,
-    sentiment: 1 - Math.random() * 2
-  }));
-  res.send(words);
+  // const topics = [
+  //   '#UMKC',
+  //   'Chiefs',
+  //   'Kansas City',
+  //   'CS5590',
+  //   '#Sports!!',
+  //   'Finals Week',
+  //   'Basketball',
+  //   'Snow Day',
+  //   '#ForkKnife',
+  //   '#Fortnite'
+  // ];
+  // const words = topics.map(topic => ({
+  //   text: topic,
+  //   value: 10 + Math.random() * 90,
+  //   sentiment: 1 - Math.random() * 2
+  // }));
+  // res.send(words);
+  const pythonProcess = spawn('python', ["./tweet_hashtag.py"]);
+  let body = '';
+  pythonProcess.stdout.on('data', (data) => {
+    body += data;
+    console.log('data', data);
+  });
+  pythonProcess.on('exit', (code, signal) => {
+    console.log('exit', code, signal, body);
+      res.send(body);
+  });
 });
 
 apiRouter.get('/weather', (req, res) => {
